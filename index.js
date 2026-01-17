@@ -27,7 +27,7 @@ const BOT_CONFIG = {
   port: Number(process.env.PORT),
   username: process.env.EMAIL,
   offline: false,
-  version: '1.21.111'
+  // POISTA version kokonaan
 };
 
 const PORT = process.env.PORT || 3000;
