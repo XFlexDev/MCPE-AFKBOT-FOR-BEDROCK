@@ -23,11 +23,10 @@ app.use(express.json());
 
 // Bot configuration — AINOA MUUTETTU KOHTA
 const BOT_CONFIG = {
-  host: process.env.HOST,
-  port: Number(process.env.PORT),
-  username: process.env.EMAIL,
-  offline: false,
-  // POISTA version kokonaan
+  host: 'play.sigmapallukka.xyz',
+  port: 20465,
+  username: 'tissimattolou@outlook.com',
+  offline: false
 };
 
 const PORT = process.env.PORT || 3000;
