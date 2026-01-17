@@ -32,7 +32,7 @@ app.use(express.json());
 const BOT_CONFIG = {
   host: 'play.sigmapallukka.xyz',
   port: 20465,
-  username: 'SINUN_OIKEA_MICROSOFT_TILI@outlook.com',
+  username: 'tissimattolou@outlook.com',
   offline: false
 };
 
