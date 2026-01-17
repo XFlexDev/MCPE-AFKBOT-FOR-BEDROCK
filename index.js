@@ -21,12 +21,12 @@ app.set('views', join(__dirname, 'views'));
 app.use(express.static(join(__dirname, 'public')));
 app.use(express.json());
 
-// Bot configuration
+// Bot configuration — AINOA MUUTETTU KOHTA
 const BOT_CONFIG = {
-  host: 'bigahas443-89hG.aternos.me',
-  port: 22665,
-  username: process.env.BOT_USERNAME || 'BedrockBot_' + Math.floor(Math.random() * 1000),
-  offline: true,
+  host: process.env.HOST,
+  port: Number(process.env.PORT),
+  username: process.env.EMAIL,
+  offline: false,
   version: '1.21.111'
 };
 
@@ -138,7 +138,7 @@ function createBedrockBot() {
       startAFKMovement();
       
       setTimeout(() => {
-        sendChat('Bot active! Dashboard: http://localhost:' + PORT);
+        sendChat('Bot active!');
       }, 2000);
     });
     
@@ -162,20 +162,6 @@ function createBedrockBot() {
         }
         
         io.emit('chat', botStats.chatMessages);
-        
-        const match = packet.message.match(/<(.+?)> (.+)/);
-        if (match) {
-          const username = match[1];
-          const message = match[2];
-          
-          if (message === '/stop') {
-            stopFollowing();
-          } else if (message === '/teamup') {
-            performTeamupGesture();
-          } else if (message === '!status') {
-            sendChat(`Status: ${botStats.status} | Following: ${isFollowing ? 'Yes' : 'No'}`);
-          }
-        }
       }
     });
     
@@ -261,45 +247,6 @@ function stopFollowing() {
   followTarget = null;
   console.log('[FOLLOW] Stopped following');
   updateStats();
-}
-
-async function performTeamupGesture() {
-  if (!client || !client.entityId) return;
-  
-  console.log('[TEAMUP] Performing crouch gesture...');
-  
-  const crouchCount = 6 + Math.floor(Math.random() * 2);
-  const crouchDelay = 150;
-  
-  try {
-    for (let i = 0; i < crouchCount; i++) {
-      client.queue('player_action', {
-        runtime_id: client.entityId,
-        action: 'start_sneak',
-        position: { x: 0, y: 0, z: 0 },
-        face: 0
-      });
-      
-      await sleep(crouchDelay);
-      
-      client.queue('player_action', {
-        runtime_id: client.entityId,
-        action: 'stop_sneak',
-        position: { x: 0, y: 0, z: 0 },
-        face: 0
-      });
-      
-      await sleep(crouchDelay);
-    }
-    
-    console.log(`[TEAMUP] Gesture completed (${crouchCount} crouches)`);
-  } catch (err) {
-    console.error('[TEAMUP ERROR]', err.message);
-  }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function handleReconnect() {
