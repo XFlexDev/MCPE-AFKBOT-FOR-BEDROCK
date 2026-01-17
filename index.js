@@ -195,16 +195,17 @@ function createBedrockBot() {
 
 function sendChat(message) {
   try {
-    if (client && client.queue) {
-      client.queue('text', {
-        type: 'chat',
-        needs_translation: false,
-        source_name: client.username,
-        message: message,
-        xuid: '',
-        platform_chat_id: ''
-      });
-    }
+    if (!client || !client.queue) return;
+    if (typeof message !== 'string' || message.length === 0) return;
+
+    client.queue('text', {
+      type: 'chat',
+      needs_translation: false,
+      source_name: client.username,
+      message: String(message),
+      xuid: '',
+      platform_chat_id: ''
+    });
   } catch (err) {
     console.error('[CHAT ERROR]', err.message);
   }
